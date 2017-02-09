@@ -24,7 +24,26 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 # Install basepackages
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-      iputils-ping \
-      && rm -rf /var/lib/apt/lists/*
+    iputils-ping \
+    && apt-get clean \
+&& rm -rf /var/lib/apt/lists/*
+      
+
+RUN		apt-get update && \
+apt-get install --no-install-recommends -y \
+git-core make gcc g++\
+sudo \
+&& git clone git://git.drogon.net/wiringPi /wiringPi \
+&& cd /wiringPi \
+&& ./build \
+&& git clone https://github.com/xkonni/raspberry-remote /remote \
+&& cd /remote \
+&& make send \
+&& cp ./send /usr/local/bin/send \
+&& cd / && rm -rf /remote /wiringPi \
+&& apt-get purge -y --auto-remove git-core make gcc g++ \
+&& echo "openhab ALL=(root) NOPASSWD: /usr/local/bin/send" >> /etc/sudoers \
+&& apt-get clean \
+&& rm -rf /var/lib/apt/lists/*
 
 USER openhab

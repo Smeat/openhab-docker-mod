@@ -24,7 +24,8 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 # Install basepackages
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-      iputils-ping \
-      && rm -rf /var/lib/apt/lists/*
-
+    iputils-ping \
+    && apt-get clean \
+&& rm -rf /var/lib/apt/lists/*
+      
 USER openhab

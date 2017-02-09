@@ -28,6 +28,29 @@ print_baseimage() {
 	EOI
 }
 
+print_raspberry(){
+	cat >> $1 <<-'EOI'  
+	
+	RUN		apt-get update && \
+			apt-get install --no-install-recommends -y \
+				git-core make gcc g++\
+				sudo \
+			&& git clone git://git.drogon.net/wiringPi /wiringPi \
+			&& cd /wiringPi \
+			&& ./build \
+			&& git clone https://github.com/xkonni/raspberry-remote /remote \
+			&& cd /remote \
+			&& make send \
+			&& cp ./send /usr/local/bin/send \
+			&& cd / && rm -rf /remote /wiringPi \
+			&& apt-get purge -y --auto-remove git-core make gcc g++ \
+			&& echo "openhab ALL=(root) NOPASSWD: /usr/local/bin/send" >> /etc/sudoers \
+			&& apt-get clean \
+			&& rm -rf /var/lib/apt/lists/*
+
+EOI
+}
+
 # Print metadata && basepackages
 print_basepackages() {
 	cat >> $1 <<-'EOI'  
@@ -46,9 +69,10 @@ print_basepackages() {
 	# Install basepackages
 	RUN apt-get update && \
 	    apt-get install --no-install-recommends -y \
-	      iputils-ping \
-	      && rm -rf /var/lib/apt/lists/*
-
+	    iputils-ping \
+	    && apt-get clean \
+		&& rm -rf /var/lib/apt/lists/*
+	      
 EOI
 }
 
@@ -70,6 +94,9 @@ do
 			print_header $file;
 			print_baseimage $file;
 			print_basepackages $file;
+			if [ "$arch" == "armhf" ]; then
+				print_raspberry $file;
+			fi
 			print_command $file
 			echo "done"
 	done
