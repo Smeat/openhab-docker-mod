@@ -33,7 +33,7 @@ print_raspberry(){
 	
 	RUN		apt-get update && \
 			apt-get install --no-install-recommends -y \
-				git-core make gcc g++\
+				git-core make gcc g++ \
 				sudo \
 			&& git clone git://git.drogon.net/wiringPi /wiringPi \
 			&& cd /wiringPi \
