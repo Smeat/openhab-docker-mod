@@ -8,7 +8,7 @@
 #
 
 FROM openhab/openhab:2.0.0-armhf
-USER root
+#	USER root
 # Basic build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE
 ARG VCS_REF
@@ -47,4 +47,4 @@ sudo \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
 
-USER openhab
+#	USER openhab

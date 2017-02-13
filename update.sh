@@ -24,7 +24,7 @@ print_header() {
 print_baseimage() {
 	cat >> $1 <<-EOI
 	FROM openhab/openhab:$version-$arch
-	USER root
+#	USER root
 	EOI
 }
 
@@ -80,7 +80,7 @@ EOI
 # Set working directory and execute command
 print_command() {
 	cat >> $1 <<-'EOI'
-	USER openhab
+#	USER openhab
 EOI
 }
 

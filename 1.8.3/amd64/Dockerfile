@@ -8,7 +8,7 @@
 #
 
 FROM openhab/openhab:1.8.3-amd64
-USER root
+#	USER root
 # Basic build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE
 ARG VCS_REF
@@ -29,4 +29,4 @@ RUN apt-get update && \
     && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
 
-USER openhab
+#	USER openhab
