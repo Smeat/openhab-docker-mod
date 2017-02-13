@@ -25,9 +25,10 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
     iputils-ping \
+    fontconfig \
     && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
-      
+
 
 RUN		apt-get update && \
 apt-get install --no-install-recommends -y \

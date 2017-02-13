@@ -29,8 +29,8 @@ print_baseimage() {
 }
 
 print_raspberry(){
-	cat >> $1 <<-'EOI'  
-	
+	cat >> $1 <<-'EOI'
+
 	RUN		apt-get update && \
 			apt-get install --no-install-recommends -y \
 				git-core make gcc g++ \
@@ -53,7 +53,7 @@ EOI
 
 # Print metadata && basepackages
 print_basepackages() {
-	cat >> $1 <<-'EOI'  
+	cat >> $1 <<-'EOI'
 	# Basic build-time metadata as defined at http://label-schema.org
 	ARG BUILD_DATE
 	ARG VCS_REF
@@ -65,14 +65,15 @@ print_basepackages() {
 	    org.label-schema.vcs-ref=$VCS_REF \
 	    org.label-schema.vcs-type="Git" \
 	    org.label-schema.vcs-url="https://github.com/smeat/openhab-docker-mod.git"
-	
+
 	# Install basepackages
 	RUN apt-get update && \
 	    apt-get install --no-install-recommends -y \
 	    iputils-ping \
+	    fontconfig \
 	    && apt-get clean \
 		&& rm -rf /var/lib/apt/lists/*
-	      
+
 EOI
 }
 
